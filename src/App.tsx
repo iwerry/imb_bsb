@@ -206,7 +206,13 @@ const About = () => {
     <section id="sobre" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="order-2 lg:order-1">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="order-2 lg:order-1"
+          >
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
                 <img src="https://picsum.photos/seed/social1/600/800" alt="Voluntários participando do projeto Foco Social promovido pelo Instituto Mais Brasília" className="rounded-2xl w-full aspect-[3/4] object-cover" referrerPolicy="no-referrer" />
@@ -225,9 +231,15 @@ const About = () => {
                 <img src="https://picsum.photos/seed/social2/600/800" alt="Ação de transformação social com ética e transparência em Brasília" className="rounded-2xl w-full aspect-[3/4] object-cover" referrerPolicy="no-referrer" />
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="order-1 lg:order-2">
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            className="order-1 lg:order-2"
+          >
             <h2 className="text-sm font-bold text-brand-sky uppercase tracking-[0.2em] mb-4">Sobre o Instituto</h2>
             <h3 className="text-4xl md:text-5xl font-extrabold text-brand-navy mb-8 leading-tight">
               Compromisso com o futuro de Brasília.
@@ -261,7 +273,7 @@ const About = () => {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -293,7 +305,13 @@ const Events = () => {
   return (
     <section id="eventos" className="py-24 bg-brand-white/20">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6"
+        >
           <div>
             <h2 className="text-sm font-bold text-brand-sky uppercase tracking-[0.2em] mb-4">Impacto Real</h2>
             <h3 className="text-4xl font-extrabold text-brand-navy">Eventos Realizados</h3>
@@ -301,13 +319,17 @@ const Events = () => {
           <a href="https://www.instagram.com/imbrasilia/" target="_blank" className="flex items-center gap-2 text-brand-navy font-bold hover:text-brand-sky transition-colors">
             Ver mais no Instagram <Instagram className="w-5 h-5" />
           </a>
-        </div>
+        </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {events.map((event, idx) => (
             <motion.div 
               key={idx}
+              initial={{ opacity: 0, scale: 0.9, y: 40 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
               whileHover={{ y: -10 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: idx * 0.15 }}
               className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 group"
             >
               <div className="h-64 overflow-hidden relative">
@@ -349,7 +371,12 @@ const Transparency = () => {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
             <h2 className="text-sm font-bold text-brand-sky uppercase tracking-[0.2em] mb-4">Gestão Aberta</h2>
             <h3 className="text-4xl md:text-5xl font-extrabold mb-8">Transparência e Governança</h3>
             <p className="text-lg text-white/70 mb-10 leading-relaxed">
@@ -378,9 +405,15 @@ const Transparency = () => {
                 </a>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          <div className="bg-white text-brand-navy p-10 rounded-[40px] shadow-2xl">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="bg-white text-brand-navy p-10 rounded-[40px] shadow-2xl"
+          >
             <h4 className="text-2xl font-bold mb-6">Nossos Pilares</h4>
             <div className="space-y-8">
               <div className="flex gap-6">
@@ -411,7 +444,7 @@ const Transparency = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -459,7 +492,12 @@ const Contact = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="bg-brand-white/30 rounded-[30px] sm:rounded-[50px] p-4 sm:p-8 md:p-16 border border-gray-100">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
               <h2 className="text-sm font-bold text-brand-sky uppercase tracking-[0.2em] mb-4">Fale Conosco</h2>
               <h3 className="text-4xl font-extrabold text-brand-navy mb-8">Vamos construir algo juntos?</h3>
               
@@ -518,9 +556,15 @@ const Contact = () => {
                   @imbrasilia
                 </a>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="relative w-full">
+            <motion.div 
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              className="relative w-full"
+            >
               <form 
                 onSubmit={handleSubmit}
                 className={cn(
@@ -589,7 +633,7 @@ const Contact = () => {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
