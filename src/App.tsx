@@ -43,17 +43,16 @@ const Navbar = () => {
       scrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-3" : "bg-transparent"
     )}>
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-brand-navy rounded-lg flex items-center justify-center text-white font-bold text-xl">
-            IMB
-          </div>
-          <span className={cn(
-            "font-bold text-lg tracking-tight transition-colors",
-            scrolled ? "text-brand-navy" : "text-brand-navy"
-          )}>
-            Instituto Mais Brasília
-          </span>
-        </div>
+        <a href="#" className="flex items-center gap-3">
+          <img 
+            src="/Logo_InstitutoMaisBrasiliaV1.png" 
+            alt="Instituto Mais Brasília" 
+            className={cn(
+              "h-10 md:h-12 transition-all duration-300",
+              scrolled ? "object-contain" : "object-contain"
+            )}
+          />
+        </a>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
@@ -580,13 +579,12 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-12 mb-20">
           <div className="col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-brand-navy rounded-lg flex items-center justify-center text-white font-bold text-xl">
-                IMB
-              </div>
-              <span className="font-bold text-2xl text-brand-navy tracking-tight">
-                Instituto Mais Brasília
-              </span>
+            <div className="mb-6 flex items-center">
+              <img 
+                src="/Logo_InstitutoMaisBrasiliaV1.png" 
+                alt="Instituto Mais Brasília" 
+                className="h-16 object-contain"
+              />
             </div>
             <p className="text-gray-500 max-w-sm leading-relaxed mb-8">
               Entidade privada sem fins lucrativos, atuando em prol do interesse público e do bem-estar social no Distrito Federal.
@@ -639,8 +637,36 @@ const Footer = () => {
 };
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen selection:bg-brand-sky/30">
+      <AnimatePresence>
+        {loading && (
+          <motion.div 
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-brand-navy"
+          >
+            <motion.img 
+              src="/Logo_InstitutoMaisBrasiliaV1.png" 
+              alt="Carregando..." 
+              initial={{ opacity: 0.5, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+              className="h-24 md:h-32 object-contain brightness-0 invert" 
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <Navbar />
       <main>
         <Hero />
