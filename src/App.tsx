@@ -422,15 +422,36 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
+    
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
+    // Configurações do FormSubmit
+    formData.append("_subject", "Novo contato pelo site - Instituto Mais Brasília");
+    formData.append("_template", "table");
+    formData.append("_captcha", "false");
+
+    try {
+      await fetch("https://formsubmit.co/ajax/institutomaisbrasilia@gmail.com", {
+        method: "POST",
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
       setIsSubmitting(false);
       setSubmitted(true);
       setTimeout(() => setSubmitted(false), 5000);
-    }, 1500);
+      form.reset();
+    } catch (error) {
+      console.error(error);
+      setIsSubmitting(false);
+      alert("Houve um erro ao enviar a mensagem. Tente novamente mais tarde.");
+    }
   };
 
   return (
@@ -510,16 +531,16 @@ const Contact = () => {
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-brand-navy">Nome</label>
-                    <input required type="text" className="w-full px-5 py-4 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-brand-sky outline-none transition-all" placeholder="Seu nome" />
+                    <input name="nome" required type="text" className="w-full px-5 py-4 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-brand-sky outline-none transition-all" placeholder="Seu nome" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-brand-navy">E-mail</label>
-                    <input required type="email" className="w-full px-5 py-4 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-brand-sky outline-none transition-all" placeholder="seu@email.com" />
+                    <input name="email" required type="email" className="w-full px-5 py-4 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-brand-sky outline-none transition-all" placeholder="seu@email.com" />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-brand-navy">Assunto</label>
-                  <select className="w-full px-5 py-4 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-brand-sky outline-none transition-all appearance-none">
+                  <select name="assunto" className="w-full px-5 py-4 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-brand-sky outline-none transition-all appearance-none">
                     <option>Parceria</option>
                     <option>Dúvidas</option>
                     <option>Imprensa</option>
@@ -528,7 +549,7 @@ const Contact = () => {
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-brand-navy">Mensagem</label>
-                  <textarea required rows={4} className="w-full px-5 py-4 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-brand-sky outline-none transition-all resize-none" placeholder="Como podemos ajudar?"></textarea>
+                  <textarea name="mensagem" required rows={4} className="w-full px-5 py-4 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-brand-sky outline-none transition-all resize-none" placeholder="Como podemos ajudar?"></textarea>
                 </div>
                 <button 
                   disabled={isSubmitting}
@@ -600,7 +621,7 @@ const Footer = () => {
               <a href="#" className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-brand-navy hover:bg-brand-sky hover:text-white transition-all">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-brand-navy hover:bg-brand-sky hover:text-white transition-all">
+              <a href="mailto:institutomaisbrasilia@gmail.com" aria-label="Enviar email para o Instituto" className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-brand-navy hover:bg-brand-sky hover:text-white transition-all">
                 <Mail className="w-5 h-5" />
               </a>
             </div>
