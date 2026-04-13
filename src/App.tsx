@@ -31,7 +31,10 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Institucional', href: '#sobre', dropdown: ['Sobre Nós', 'Missão e Valores'] },
+    { name: 'Institucional', href: '#sobre', dropdown: [
+      { label: 'Sobre Nós', href: '#sobre' },
+      { label: 'Missão e Valores', href: '#missao' }
+    ]},
     { name: 'Eventos Realizados', href: '#eventos' },
     { name: 'Transparência', href: '#transparencia' },
     { name: 'Contato', href: '#contato' },
@@ -68,8 +71,8 @@ const Navbar = () => {
               {link.dropdown && (
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white shadow-xl rounded-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all border border-gray-100">
                   {link.dropdown.map(item => (
-                    <a key={item} href="#" className="block px-4 py-2 text-sm hover:bg-gray-50 hover:text-brand-sky">
-                      {item}
+                    <a key={item.label} href={item.href} className="block px-4 py-2 text-sm hover:bg-gray-50 hover:text-brand-sky">
+                      {item.label}
                     </a>
                   ))}
                 </div>
@@ -164,7 +167,7 @@ const Hero = () => {
           <div className="aspect-[4/3] sm:aspect-square rounded-3xl overflow-hidden shadow-2xl relative group">
             <img 
               src="https://picsum.photos/seed/brasilia/1200/1200" 
-              alt="Brasília Architecture" 
+              alt="Impacto Social na Arquitetura de Brasília" 
               className="w-full h-full object-cover grayscale-[0.2] group-hover:scale-105 transition-transform duration-700"
               referrerPolicy="no-referrer"
             />
@@ -206,7 +209,7 @@ const About = () => {
           <div className="order-2 lg:order-1">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
-                <img src="https://picsum.photos/seed/social1/600/800" className="rounded-2xl w-full aspect-[3/4] object-cover" referrerPolicy="no-referrer" />
+                <img src="https://picsum.photos/seed/social1/600/800" alt="Voluntários participando do projeto Foco Social promovido pelo Instituto Mais Brasília" className="rounded-2xl w-full aspect-[3/4] object-cover" referrerPolicy="no-referrer" />
                 <div className="bg-brand-sky p-8 rounded-2xl text-white">
                   <Target className="w-10 h-10 mb-4" />
                   <h3 className="text-xl font-bold mb-2">Foco Social</h3>
@@ -219,7 +222,7 @@ const About = () => {
                   <h3 className="text-xl font-bold mb-2">Ética</h3>
                   <p className="text-sm opacity-90">Transparência total em cada projeto.</p>
                 </div>
-                <img src="https://picsum.photos/seed/social2/600/800" className="rounded-2xl w-full aspect-[3/4] object-cover" referrerPolicy="no-referrer" />
+                <img src="https://picsum.photos/seed/social2/600/800" alt="Ação de transformação social com ética e transparência em Brasília" className="rounded-2xl w-full aspect-[3/4] object-cover" referrerPolicy="no-referrer" />
               </div>
             </div>
           </div>
@@ -238,7 +241,7 @@ const About = () => {
               </p>
             </div>
             
-            <div className="mt-12 grid sm:grid-cols-2 gap-8">
+            <div id="missao" className="mt-12 grid sm:grid-cols-2 gap-8 scroll-mt-24">
               <div>
                 <h4 className="text-xl font-bold text-brand-navy mb-3 flex items-center gap-2">
                   <div className="w-1.5 h-6 bg-brand-sky rounded-full" />
