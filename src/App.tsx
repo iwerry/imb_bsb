@@ -359,6 +359,62 @@ const Events = () => {
 };
 
 const Transparency = () => {
+  const documents = [
+    { 
+      name: "Estatuto Social Atualizado", 
+      path: "/Download/EstatutoSocialConsolidado.pdf", 
+      size: "7.0 MB",
+      active: true
+    },
+    { 
+      name: "Eleição Assembleia Geral", 
+      path: "/Download/EleicaoAssembleiaGeral.pdf", 
+      size: "2.5 MB",
+      active: true
+    },
+    { name: "Relatório de Atividades 2023", path: "#", size: "", active: false },
+    { name: "Demonstrações Financeiras", path: "#", size: "", active: false },
+    { name: "Certidões Negativas", path: "#", size: "", active: false }
+  ];
+
+  const handleDownloadLog = async (docName: string) => {
+    try {
+      // 1. Obtém o IP do usuário anonimamente usando um serviço público gratuito
+      const ipResponse = await fetch('https://api.ipify.org?format=json').catch(() => null);
+      const ipData = ipResponse ? await ipResponse.json() : { ip: 'IP não identificado' };
+      
+      // 2. Calcula os dados de tempo (hora, mês, semana, ano)
+      const now = new Date();
+      // Lógica simples de semana do ano
+      const firstDayOfYear = new Date(now.getFullYear(), 0, 1);
+      const pastDaysOfYear = (now.getTime() - firstDayOfYear.getTime()) / 86400000;
+      const weekNumber = Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+
+      const logEntry = {
+        id: crypto.randomUUID(),
+        arquivo: docName,
+        ip: ipData.ip,
+        data_hora: now.toLocaleString('pt-BR'),
+        mes: now.getMonth() + 1,
+        semana: weekNumber,
+        ano: now.getFullYear(),
+        local_fuso: Intl.DateTimeFormat().resolvedOptions().timeZone
+      };
+
+      // 3. Salva no formato JSON Oculto (no LocalStorage do navegador/admin)
+      // Como estamos num frontend sem banco de dados nativo, a forma de "dar um jeito"
+      // é persistir isso no cache do navegador ou você poderá enviar para uma API futuramente.
+      const existingLogs = JSON.parse(localStorage.getItem('imb_download_logs') || '[]');
+      existingLogs.push(logEntry);
+      localStorage.setItem('imb_download_logs', JSON.stringify(existingLogs));
+      
+      console.log('🔒 Log de Transparência Salvo (Oculto):', logEntry);
+
+    } catch (error) {
+      console.error('Erro ao gerar log de download', error);
+    }
+  };
+
   return (
     <section id="transparencia" className="py-24 bg-brand-navy text-white overflow-hidden relative">
       {/* Decorative background element */}
@@ -384,24 +440,38 @@ const Transparency = () => {
             </p>
             
             <div className="space-y-4">
-              {[
-                "Estatuto Social Atualizado",
-                "Relatório de Atividades 2023",
-                "Demonstrações Financeiras",
-                "Certidões Negativas"
-              ].map((doc, i) => (
+              {documents.map((doc, i) => (
                 <a 
                   key={i}
-                  href="#" 
-                  className="flex items-center justify-between p-5 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group"
+                  href={doc.active ? doc.path : undefined}
+                  download={doc.active ? true : undefined}
+                  target={doc.active ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  onClick={() => doc.active && handleDownloadLog(doc.name)}
+                  className={cn(
+                    "flex items-center justify-between p-5 rounded-2xl transition-all group",
+                    doc.active 
+                      ? "bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer" 
+                      : "bg-white/5 border border-transparent opacity-50 cursor-not-allowed"
+                  )}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-brand-sky/20 rounded-lg flex items-center justify-center text-brand-sky">
+                    <div className={cn(
+                      "w-10 h-10 rounded-lg flex items-center justify-center",
+                      doc.active ? "bg-brand-sky/20 text-brand-sky" : "bg-gray-500/20 text-gray-400"
+                    )}>
                       <FileText className="w-5 h-5" />
                     </div>
-                    <span className="font-semibold">{doc}</span>
+                    <div>
+                      <span className="font-semibold block text-sm sm:text-base">{doc.name}</span>
+                      {doc.size && (
+                        <span className="text-xs text-brand-sky font-medium mt-0.5 block">
+                          PDF • {doc.size}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <ExternalLink className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  {doc.active && <ExternalLink className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity text-brand-sky" />}
                 </a>
               ))}
             </div>
