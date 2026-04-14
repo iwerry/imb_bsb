@@ -88,7 +88,6 @@ export const Transparency = () => {
       </div>
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* Cabeçalho da Seção */}
         <div className="text-center max-w-3xl mx-auto mb-20">
