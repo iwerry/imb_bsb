@@ -20,7 +20,7 @@ export const Transparency = () => {
       path: "/Download/EstatutoSocialConsolidado.pdf", 
       size: "7.0 MB",
       date: "14/04/2026",
-      active: true
+      active: false
     },
     { 
       id: 'doc-2',
@@ -28,7 +28,7 @@ export const Transparency = () => {
       path: "/Download/EleicaoAssembleiaGeral.pdf", 
       size: "2.5 MB",
       date: "14/04/2026",
-      active: true
+      active: false
     }
   ];
 
@@ -171,7 +171,13 @@ export const Transparency = () => {
                 download={doc.active ? true : undefined}
                 target={doc.active ? "_blank" : undefined}
                 rel="noopener noreferrer"
-                onClick={() => doc.active && handleDownloadLog(doc.name)}
+                onClick={(e) => {
+                  if (!doc.active) {
+                    e.preventDefault();
+                    return;
+                  }
+                  handleDownloadLog(doc.name);
+                }}
                 className={cn(
                   "w-full py-5 rounded-xl font-bold text-center flex items-center justify-center gap-2 transition-all duration-300",
                   doc.active
